@@ -1,10 +1,9 @@
 package com.ashcollege.entities;
 
-
 import javax.persistence.*;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users", schema = "smartmath") // Specify the schema here
 public class UserEntity {
 
     @Id
@@ -17,6 +16,7 @@ public class UserEntity {
     @Column(nullable = false)
     private String password;
 
+    // Getters and setters
     public int getId() {
         return id;
     }
