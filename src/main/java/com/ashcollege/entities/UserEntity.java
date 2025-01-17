@@ -16,7 +16,6 @@ public class UserEntity {
     @Column(nullable = false)
     private String password;
 
-    // Getters and setters
     public int getId() {
         return id;
     }
