@@ -44,8 +44,8 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<String> login(
-            @RequestParam("email") String email, // Explicitly specify the parameter name
-            @RequestParam("password") String password // Explicitly specify the parameter name
+            @RequestParam("email") String email, // Accept email as a query parameter
+            @RequestParam("password") String password // Accept password as a query parameter
     ) {
         UserEntity user = persist.loginUser(email, password);
         if (user != null) {
