@@ -1,6 +1,8 @@
 package com.ashcollege.controllers;
 
 import com.ashcollege.entities.UserEntity;
+import com.ashcollege.service.MathExerciseService;
+import com.ashcollege.service.MathQuestion;
 import com.ashcollege.service.Persist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,16 +13,18 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final Persist persist;
+    private final MathExerciseService mathExerciseService;
 
     @Autowired
-    public UserController(Persist persist) {
+    public UserController(Persist persist, MathExerciseService mathExerciseService) {
         this.persist = persist;
+        this.mathExerciseService = mathExerciseService;
     }
 
     @PostMapping("/register")
     public ResponseEntity<String> register(
-            @RequestParam("email") String email, // Explicitly specify the parameter name
-            @RequestParam("password") String password // Explicitly specify the parameter name
+            @RequestParam("email") String email,
+            @RequestParam("password") String password
     ) {
         if (!email.matches("^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")) {
             return ResponseEntity.badRequest().body("Invalid email format.");
@@ -48,6 +52,16 @@ public class UserController {
             return ResponseEntity.ok("Login successful!");
         } else {
             return ResponseEntity.badRequest().body("Invalid email or password.");
+        }
+    }
+
+    @GetMapping("/math/generate-question/{difficulty}")
+    public ResponseEntity<MathQuestion> generateQuestion(@PathVariable int difficulty) {
+        try {
+            MathQuestion question = mathExerciseService.generateQuestion(difficulty);
+            return ResponseEntity.ok(question);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(null);
         }
     }
 }
