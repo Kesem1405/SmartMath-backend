@@ -25,6 +25,12 @@ public class MathExerciseService {
             throw new IllegalArgumentException("Invalid difficulty level");
         }
 
+        if (operation.equals("-") && num1 < num2) {
+            int temp = num1;
+            num1 = num2;
+            num2 = temp;
+        }
+
         String question = num1 + " " + operation + " " + num2;
         int answer = operation.equals("+") ? num1 + num2 : num1 - num2;
 
