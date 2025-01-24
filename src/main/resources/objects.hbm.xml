@@ -5,13 +5,82 @@
 
 <hibernate-mapping>
 
-        <class name="com.ashcollege.entities.UserEntity" table="users" lazy="false">
-            <id name="id" type="int" column="id">
-                <generator class="native"/>
-            </id>
-            <property name="email" type="string" column="email"/>
-            <property name="password" type="string" column="password"/>
-        </class>
+    <class name="com.ashcollege.entities.UserEntity" table="Users" lazy="false">
+        <id name="id" type="int" column="id">
+            <generator class="native"/>
+        </id>
+        <property name="email" type="string" column="email"/>
+        <property name="password" type="string" column="password"/>
+    </class>
+
+    <class name="com.ashcollege.entities.TopicEntity" table="Topic" lazy="false">
+        <id name="id" type="int" column="id">
+            <generator class="native"/>
+        </id>
+        <property name="name" type="string" column="name"/>
+    </class>
+
+    <class name="com.ashcollege.entities.QuestionTypeEntity" table="QuestionType" lazy="false">
+        <id name="id" type="int" column="id">
+            <generator class="native"/>
+        </id>
+        <property name="name" type="string" column="name"/>
+    </class>
+
+    <class name="com.ashcollege.entities.QuestionEntity" table="Question" lazy="false">
+        <id name="id" type="int" column="id">
+            <generator class="native"/>
+        </id>
+        <property name="context" type="string" column="context"/>
+
+        <property name="difficulty" column="difficulty" type="int"/>
+
+        <many-to-one name="topic" column="topic_id"
+                     class="com.ashcollege.entities.TopicEntity"/>
+        <many-to-one name="questionType" column="question_type"
+                     class="com.ashcollege.entities.QuestionTypeEntity"/>
+    </class>
+
+
+
+    <class name="com.ashcollege.entities.UserProgressEntity" table="UserProgress" lazy="false">
+        <id name="id" type="int" column="id">
+            <generator class="native"/>
+        </id>
+        <many-to-one name="user" column="user_id"
+                     class="com.ashcollege.entities.UserEntity"/>
+
+        <many-to-one name="currentQuestion" column="current_question"
+                     class="com.ashcollege.entities.QuestionEntity"/>
+
+        <property name="currentDifficulty" column="current_difficulty" type="int"/>
+
+        <many-to-one name="currentTopic" column="current_topic"
+                     class="com.ashcollege.entities.TopicEntity"/>
+
+        <property name="currentInARow" type="java.lang.Integer" column="current_in_a_row"/>
+        <property name="isInIntermediateLevel" type="java.lang.Boolean" column="intermediate_level"/>
+        <property name="scoreForDifficulty" type="java.lang.Integer" column="score"/>
+    </class>
+
+    <class name="com.ashcollege.entities.UserQuestionHistoryEntity" table="UserQuestionHistory" lazy="false">
+        <id name="id" type="int" column="id">
+            <generator class="native"/>
+        </id>
+        <many-to-one name="user" column="user_id"
+                     class="com.ashcollege.entities.UserEntity"/>
+
+        <many-to-one name="question" column="question_id"
+                     class="com.ashcollege.entities.QuestionEntity"/>
+
+        <property name="isAnsweredCorrectly" type="java.lang.Boolean" column="is_answered_correctly"/>
+
+        <property name="attemptNum" type="java.lang.Integer" column="attempt_num"/>
+
+        <property name="questionSendTime" type="java.time.LocalDateTime" column="question_send_time"/>
+
+        <property name="answerTime" type="java.time.LocalDateTime" column="answer_time"/>
+    </class>
 
 </hibernate-mapping>
 

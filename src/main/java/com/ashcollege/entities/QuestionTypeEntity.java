@@ -1,7 +1,12 @@
 package com.ashcollege.entities;
 
-public class CityEntity extends BaseEntity {
+public class QuestionTypeEntity extends BaseEntity{
+
     private String name;
+
+    public QuestionTypeEntity(String name) {
+        this.name = name;
+    }
 
     public String getName() {
         return name;
