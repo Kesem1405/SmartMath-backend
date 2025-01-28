@@ -1,6 +1,7 @@
 package com.ashcollege.service;
 
 import com.ashcollege.entities.UserEntity;
+import com.ashcollege.entities.UserProgressEntity;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,6 +77,11 @@ public class Persist {
         return existingUser != null;
     }
 
+
+    // Save user progress.
+    public void saveUserProgress(UserProgressEntity userProgress) {
+        this.sessionFactory.getCurrentSession().saveOrUpdate(userProgress);
+    }
 
 
 

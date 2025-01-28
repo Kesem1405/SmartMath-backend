@@ -12,10 +12,14 @@ public class UserProgressEntity extends BaseEntity{
     @Enumerated(EnumType.ORDINAL)
     private Difficulty currentDifficulty;
     private TopicEntity currentTopic;
-
     private Integer currentInARow; //כמות התשובות הנכונות שענה **ברצף
     private Boolean isInIntermediateLevel; //האם נמצא בשלב ביניים
     private Integer scoreForDifficulty; //סופר ניקוד לכל רמת קושי, שעולים רמה מתאפס
+
+
+    public UserProgressEntity() {
+
+    }
 
     public UserProgressEntity(UserEntity user, Difficulty currentDifficulty, TopicEntity currentTopic, Integer currentInARow, Boolean isInIntermediateLevel, Integer score) {
         this.user = user;
