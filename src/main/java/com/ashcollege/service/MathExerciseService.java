@@ -17,11 +17,10 @@ public class MathExerciseService {
         Integer score = userProgress.getScoreForDifficulty();
         Integer currentInARow = userProgress.getCurrentInARow();
 
-        // Adjust difficulty based on user metrics
-        if (score >= 1000 && currentInARow >= 5 ) {
-            currentDifficulty = Difficulty.HARD;
-        } else if (score >= 500 && currentInARow >= 3) {
+        if (score >= 5 && currentInARow >= 5 ) {
             currentDifficulty = Difficulty.MEDIUM;
+        } else if (score >= 15 && currentInARow >= 3) {
+            currentDifficulty = Difficulty.HARD;
         }
 
         // Generate numbers based on difficulty
@@ -54,7 +53,7 @@ public class MathExerciseService {
         // Update the user progress if necessary
         updateUserProgress(userProgress, currentDifficulty, score, currentInARow);
 
-        return new MathQuestion(question, answer);
+        return new MathQuestion(question, answer, currentDifficulty);
     }
 
     private void updateUserProgress(UserProgressEntity userProgress, Difficulty newDifficulty, Integer score, Integer currentInARow) {

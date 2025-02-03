@@ -25,6 +25,7 @@ public class QuestionController {
             Difficulty difficulty;
             try {
                 difficulty = Difficulty.valueOf(difficultyValue.toUpperCase()); // For EASY, MEDIUM, HARD
+
             } catch (IllegalArgumentException e) {
                 int numericValue = Integer.parseInt(difficultyValue); // For 1, 2, 3
                 difficulty = Difficulty.fromValue(numericValue);
