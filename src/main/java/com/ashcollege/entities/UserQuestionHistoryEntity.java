@@ -20,6 +20,9 @@ public class UserQuestionHistoryEntity extends BaseEntity{
         this.answerTime = answerTime;
     }
 
+    public UserQuestionHistoryEntity() {
+    }
+
     public UserEntity getUser() {
         return user;
     }

@@ -2,6 +2,7 @@ package com.ashcollege.service;
 
 import com.ashcollege.entities.UserEntity;
 import com.ashcollege.entities.UserProgressEntity;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,6 +69,15 @@ public class Persist {
                 .uniqueResult();
     }
 
+    // Find user by email
+    public UserEntity findUserByEmail(String email) {
+        return (UserEntity) sessionFactory.getCurrentSession()
+                .createQuery("FROM UserEntity WHERE email = :email")
+                .setParameter("email", email)
+                .uniqueResult();
+    }
+
+
     // Email taken
     public boolean isEmailTaken(String email) {
         UserEntity existingUser = (UserEntity) sessionFactory.getCurrentSession()
@@ -82,7 +92,5 @@ public class Persist {
     public void saveUserProgress(UserProgressEntity userProgress) {
         this.sessionFactory.getCurrentSession().saveOrUpdate(userProgress);
     }
-
-
 
 }

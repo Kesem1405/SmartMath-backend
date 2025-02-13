@@ -41,6 +41,7 @@ public class MathExerciseService {
                 throw new IllegalArgumentException("Unknown difficulty level");
         }
 
+
         if (operation.equals("-") && num1 < num2) {
             int temp = num1;
             num1 = num2;
