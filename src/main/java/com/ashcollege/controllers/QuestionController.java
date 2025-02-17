@@ -1,10 +1,12 @@
 package com.ashcollege.controllers;
 
+import com.ashcollege.entities.TopicEntity;
 import com.ashcollege.entities.UserProgressEntity;
 import com.ashcollege.service.MathExerciseService;
 import com.ashcollege.service.MathQuestion;
 import com.ashcollege.utils.Difficulty;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,31 +20,35 @@ public class QuestionController {
     public QuestionController(MathExerciseService mathExerciseService) {
         this.mathExerciseService = mathExerciseService;
     }
-
     @GetMapping("/generate/{difficulty}")
-    public ResponseEntity<?> generateQuestion(@PathVariable("difficulty") String difficultyValue) {
+    public ResponseEntity<?> generateQuestion(@PathVariable String difficulty) {
         try {
-            Difficulty difficulty;
-            try {
-                difficulty = Difficulty.valueOf(difficultyValue.toUpperCase()); // For EASY, MEDIUM, HARD
+            // Log the raw received difficulty
+            System.out.println("Raw received difficulty: " + difficulty);
 
-            } catch (IllegalArgumentException e) {
-                int numericValue = Integer.parseInt(difficultyValue); // For 1, 2, 3
-                difficulty = Difficulty.fromValue(numericValue);
-            }
+            // Convert difficulty to uppercase to ensure correct enum mapping
+            Difficulty difficultyEnum = Difficulty.valueOf(difficulty.toUpperCase());
 
-            UserProgressEntity userProgress = fetchUserProgress();
-            userProgress.setCurrentDifficulty(difficulty);
+            // Log the mapped enum value
+            System.out.println("Mapped difficulty: " + difficultyEnum);
 
+            UserProgressEntity userProgress = new UserProgressEntity();
+            userProgress.setCurrentDifficulty(difficultyEnum);
+            userProgress.setCurrentTopic(new TopicEntity(difficultyEnum.name()));
             MathQuestion question = mathExerciseService.generateQuestion(userProgress);
             return ResponseEntity.ok(question);
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body("Invalid difficulty level: " + difficultyValue);
+            return ResponseEntity.badRequest().body("Invalid difficulty level: " + difficulty);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while generating the question.");
         }
     }
 
 
-    // Example method to mock or fetch UserProgressEntity
+
+
+
     private UserProgressEntity fetchUserProgress() {
         UserProgressEntity userProgress = new UserProgressEntity();
         userProgress.setCurrentDifficulty(Difficulty.EASY);

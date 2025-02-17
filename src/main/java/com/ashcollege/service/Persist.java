@@ -3,6 +3,7 @@ package com.ashcollege.service;
 import com.ashcollege.entities.UserEntity;
 import com.ashcollege.entities.UserProgressEntity;
 
+import com.ashcollege.utils.Difficulty;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,9 +89,9 @@ public class Persist {
     }
 
 
-    // Save user progress.
-    public void saveUserProgress(UserProgressEntity userProgress) {
-        this.sessionFactory.getCurrentSession().saveOrUpdate(userProgress);
+    public void updateUserDifficulty(UserProgressEntity userProgress, Difficulty newDifficulty) {
+        userProgress.setCurrentDifficulty(newDifficulty);
+        sessionFactory.getCurrentSession().save(userProgress);  // Save updated progress to the database
     }
 
 }

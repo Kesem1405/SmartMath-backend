@@ -4,11 +4,11 @@ import com.ashcollege.utils.Difficulty;
 
 public class MathQuestion {
     private String question;
-    private int answer;
+    private String answer;
     private Difficulty difficulty;  // Add difficulty field
 
     // Constructor, getters and setters
-    public MathQuestion(String question, int answer, Difficulty difficulty) {
+    public MathQuestion(String question, String answer, Difficulty difficulty) {
         this.question = question;
         this.answer = answer;
         this.difficulty = difficulty;
@@ -18,7 +18,7 @@ public class MathQuestion {
         return question;
     }
 
-    public int getAnswer() {
+    public String getAnswer() {
         return answer;
     }
 

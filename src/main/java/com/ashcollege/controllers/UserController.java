@@ -68,22 +68,13 @@ public class UserController {
         return ResponseEntity.ok("Profile updated successfully!");
     }
 
-
-    @GetMapping("/math/generate-question/{difficulty}")
-    public ResponseEntity<?> generateQuestion(@PathVariable int difficulty) {
-        try {
-            if (difficulty < 1 || difficulty > 3) {
-                throw new IllegalArgumentException("Difficulty must be between 1 and 3.");
-            }
-            UserProgressEntity userProgress = new UserProgressEntity();
-            userProgress.setCurrentDifficulty(Difficulty.fromValue(difficulty));
-            MathQuestion question = mathExerciseService.generateQuestion(userProgress);
-            return ResponseEntity.ok(question);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace();  // Log the exception details
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while generating the question.");
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestParam String email, @RequestParam String password) {
+        UserEntity user = persist.loginUser(email, password);
+        if (user != null) {
+            return ResponseEntity.ok("Login successful!");
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password.");
         }
     }
 
