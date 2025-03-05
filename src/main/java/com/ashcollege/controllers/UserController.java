@@ -2,16 +2,20 @@ package com.ashcollege.controllers;
 
 import com.ashcollege.entities.UserEntity;
 import com.ashcollege.entities.UserProgressEntity;
+import com.ashcollege.responses.LoginResponse;
 import com.ashcollege.service.MathExerciseService;
 import com.ashcollege.service.MathQuestion;
 import com.ashcollege.service.Persist;
 import com.ashcollege.utils.Difficulty;
+import com.ashcollege.utils.Errors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+
+import static com.ashcollege.utils.Errors.*;
 
 @RestController
 @RequestMapping("/user")
@@ -27,10 +31,46 @@ public class UserController {
         this.mathExerciseService = mathExerciseService;
     }
 
+//shira func
+//    @PostMapping("/register")
+//    public ResponseEntity<LoginResponse> register(@RequestBody Map<String, String> payload) {
+//
+//        Integer errorCode = null;
+//        String email = payload.get("email");
+//        String password = payload.get("password");
+//
+//        if (!email.isEmpty() && !password.isEmpty())
+//        {
+//            if (isValidPassword(password)){
+//
+//                if (isValidEmail(email)){
+//
+//                    if (!persist.isEmailTaken(email))
+//                    {
+//                        persist.registerUser(email, password);
+//                        // לתקן את הפונקציה שתחזיר טוקן שנייצר אותו במחלקה פרסיסט
+//                    }else {
+//                        errorCode = ERROR_EMAIL_NOT_AVAILABLE;
+//                    }
+//                }else {
+//                   errorCode = ERROR_NOT_VALID_EMAIL;
+//                }
+//
+//            }else {
+//               errorCode = ERROR_NOT_VALID_PASSWORD;
+//            }
+//        }else {
+//             errorCode = ERROR_MISSING_FIELDS;
+//        }
+//
+//        return null;
+//    }
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody Map<String, String> payload) {
+
         ResponseEntity<String> validationResponse = validateEmailAndPassword(payload);
+
         if (validationResponse != null) {
             return validationResponse;
         }

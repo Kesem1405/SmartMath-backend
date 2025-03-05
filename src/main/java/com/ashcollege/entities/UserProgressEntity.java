@@ -30,6 +30,7 @@ public class UserProgressEntity extends BaseEntity{
         this.scoreForDifficulty = score;
     }
 
+
     public UserEntity getUser() {
         return user;
     }
